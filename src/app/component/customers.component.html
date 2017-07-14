@@ -1,0 +1,10 @@
+<div class="list-group" *ngFor="let customer of customers">
+  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Name: {{customer.name}}</h5>
+      <small>Phone: {{customer.phone}}</small>
+    </div>
+    <p class="mb-1">Address: {{customer.address}}</p>
+    <small>id: {{customer.id}}</small>
+  </a>
+</div>

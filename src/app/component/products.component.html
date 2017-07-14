@@ -1,0 +1,9 @@
+<div class="list-group" *ngFor="let product of products">
+  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Name: {{product.name}}</h5>
+      <small>Price: {{product.price}}</small>
+    </div>
+    <small>id: {{product.id}}</small>
+  </a>
+</div>

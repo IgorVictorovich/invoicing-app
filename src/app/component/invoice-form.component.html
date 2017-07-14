@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="margin-20">
+        <h4>Add Invoice</h4>
+      </div>
+      <form [formGroup]="invoiceForm" novalidate (ngSubmit)="save(invoiceForm)">
+        <div class="form-group">
+          <label for="customerInput">Customer</label>
+          <select class="form-control" id="customerInput" formControlName="customer" (change)="save()">
+            <option *ngFor="let c of customers" [value]="c.id">{{c.name}}</option>
+          </select>
+          <small *ngIf="!invoiceForm.controls.customer.valid" class="text-danger">
+            Name is required
+          </small>
+        </div>
+        <!--products-->
+        <div formArrayName="products">
+          <div *ngFor="let product of invoiceForm.controls.products.controls; let i=index" class="panel panel-default">
+            <div class="panel-heading">
+              <span>Product {{i + 1}}</span>
+              <span class="glyphicon glyphicon-remove pull-right"
+                    *ngIf="invoiceForm.controls.products.controls.length > 1" (click)="removeProductGroup(i)"></span>
+            </div>
+            <div class="panel-body" [formGroupName]="i">
+              <div class="form-group col-xs-6">
+                <label for="productInput">Product</label>
+                <select class="form-control" id="productInput" formControlName="product" (change)="save()">
+                  <option *ngFor="let p of products" [value]="p.id">{{p.name}}</option>
+                </select>
+                <small [hidden]="invoiceForm.controls.products.controls[i].controls.product.valid" class="text-danger">
+                  Product is required
+                </small>
+              </div>
+              <div class="form-group col-xs-6">
+                <label for="quantityInput">Quantity</label>
+                <input id="quantityInput" type="number" class="form-control" formControlName="quantity" min="1"
+                       (change)="save()">
+                <small [hidden]="invoiceForm.controls.products.controls[i].controls.quantity.valid" class="text-danger">
+                  Quantity is required
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="margin-20">
+          <a (click)="addProductGroup()" style="cursor: default">
+            Add another product +
+          </a>
+        </div>
+        <!--products-->
+        <div class="form-group">
+          <label for="discountInput">Discount</label>
+          <input id="discountInput" type="number" class="form-control" formControlName="discount" min="0"
+                 (change)="save()">
+          <small *ngIf="!invoiceForm.controls.discount.valid" class="text-danger">
+            Discount is required
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="totalInput">Total</label>
+          <input id="totalInput" [readonly]="true" [value]="getTotalValue()" type="number" class="form-control"
+                 formControlName="total">
+        </div>
+        <div class="alert alert-success" *ngIf="saved && showSavedAlert">
+          <strong>Success!</strong> Form successfully saved.
+        </div>
+        <div class="alert alert-danger" *ngIf="!saved && showErrorAlert">
+          <strong>Error!</strong> Something went wrong.
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
